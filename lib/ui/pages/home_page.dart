@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../Widgets/banner.dart';
-import '../Widgets/cart_total.dart';
+import '../widgets/banner.dart';
+import '../widgets/cart_total.dart';
 import 'product_list.dart';
 
 class HomePage extends StatelessWidget {
@@ -45,8 +45,8 @@ class HomePage extends StatelessWidget {
         CustomBanner(200),
         CircleAvatar(
           backgroundImage:
-              NetworkImage("https://randomuser.me/api/portraits/men/75.jpg"),
-          radius: 60.0,
+              NetworkImage("https://randomuser.me/api/portraits/men/74.jpg"),
+          radius: 40.0,
         )
       ],
     );

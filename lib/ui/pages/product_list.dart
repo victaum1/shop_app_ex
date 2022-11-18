@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../domain/product.dart';
-import '../Widgets/banner.dart';
+import '../widgets/banner.dart';
 import '../controllers/shopping_controller.dart';
 
 class ProductList extends StatefulWidget {
@@ -24,20 +24,41 @@ class _ProductListState extends State<ProductList> {
             Stack(
               children: [const CustomBanner(50), customAppBar()],
             ),
-            // TODO
+            //
             // aquí debemos rodear el widget Expanded en un Obx para
             // observar los cambios en la lista de entries del shoppingController
-            Expanded(
-              child: ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: shoppingController.entries.length,
-                  itemBuilder: (context, index) {
-                    return _row(shoppingController.entries[index], index);
-                  }),
-            )
+            Obx(() => Expanded(
+                  child: ListView.builder(
+                      padding: const EdgeInsets.all(8),
+                      itemCount: shoppingController.entries.length,
+                      itemBuilder: (context, index) {
+                        return _row(shoppingController.entries[index], index);
+                      }),
+                )),
           ],
         ),
       ),
+      bottomNavigationBar: Obx(() => BottomNavigationBar(
+            items: <BottomNavigationBarItem>[
+              // ignore: prefer_const_constructors
+              BottomNavigationBarItem(
+                  icon: const Icon(Icons.arrow_back), label: 'Regresar'),
+              // ignore: prefer_const_constructors
+              BottomNavigationBarItem(
+                  icon: const Icon(Icons.cleaning_services_outlined),
+                  label: 'Inicializar'),
+              BottomNavigationBarItem(
+                  icon: const Icon(Icons.payment),
+                  label: '\$${shoppingController.total}'),
+            ],
+            onTap: (value) {
+              if (value == 0) {
+                Get.back();
+              } else if (value == 1) {
+                shoppingController.inicializarCantidades();
+              }
+            },
+          )),
     );
   }
 
@@ -65,28 +86,39 @@ class _ProductListState extends State<ProductList> {
 
   Widget _card(Product product) {
     return Card(
+      color: Colors.blue[50],
       margin: const EdgeInsets.all(4.0),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        Image(
+          image: NetworkImage(product.urlImgen),
+          fit: BoxFit.cover,
+          height: 50,
+          width: 50,
+        ),
         Text(product.name),
-        Text(product.price.toString()),
-        Column(
+        Text('\$${product.price}'),
+        Row(
           children: [
             IconButton(
                 onPressed: () {
-                  // TODO
+                  //
                   // aquí debemos llamar al método del controlador que
                   // incrementa el número de unidades del producto
                   // pasandole el product.id
+                  shoppingController.agregarProducto(product.id);
+                  shoppingController.entries.refresh();
                 },
-                icon: const Icon(Icons.arrow_upward)),
+                icon: const Icon(Icons.add_circle)),
             IconButton(
                 onPressed: () {
-                  // TODO
+                  //
                   // aquí debemos llamar al método del controlador que
                   // disminuye el número de unidades del producto
                   // pasandole el product.id
+                  shoppingController.quitarProducto(product.id);
+                  shoppingController.entries.refresh();
                 },
-                icon: const Icon(Icons.arrow_downward))
+                icon: const Icon(Icons.remove_circle))
           ],
         ),
         Column(

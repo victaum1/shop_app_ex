@@ -1,6 +1,17 @@
 Solución para el segundo reto
 
-El siguiente es el demo de la interfaz.
+#### Team # 1 - NCR 2289 Desarrollo móvil
+Daniela Ibarra Hoyos
 
-![shoppingApp](./demo.gif)
+Diana Cipamocha Pedraza
+
+Jairo Chantre Ullune
+
+Jeison Salazar Vaquero
+
+Victor Manotas Garces
+
+#### Demo
+
+![shoppingApp](Multimedia1.gif)
 
